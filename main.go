@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -17,18 +19,24 @@ type CaptureConfiguration struct {
 }
 
 func main() {
+	// Parse flags
 	deviceFlag := flag.String("device", "/dev/video0", "Device to capture from")
 	infoFlag := flag.Bool("info", false, "Print available configurations to choose from and exit")
 	formatFlag := flag.String("format", "Motion-JPEG", "Format to capture; see -info")
-	widthFlag := flag.Uint("width", 640, "Width to capture; see -info. The height will be automatically chosen.")
+	widthFlag := flag.Uint("width", 640, "Width to capture; see -info")
+	heightFlag := flag.Uint("height", 360, "Height to capture; see -info")
+	timeoutFlag := flag.Uint("timeout", 5, "Time in seconds to wait for a frame")
+	outputFlag := flag.String("out", "image.jpeg", "Output filename")
 
 	flag.Parse()
 
+	// Open the camera
 	cam, err := webcam.Open(*deviceFlag)
 	if err != nil {
 		panic(err)
 	}
 
+	// Enumerate configurations
 	formats := cam.GetSupportedFormats()
 	configs := []CaptureConfiguration{}
 	for formatID, formatName := range formats {
@@ -49,30 +57,60 @@ func main() {
 		}
 	}
 
+	// Print configurations and exit if -info was supplied
 	if *infoFlag {
 		for _, config := range configs {
-			log.Printf("%v (%vx%v)", config.FormatName, config.Width, config.Height)
+			fmt.Printf("%v (%vx%v)\n", config.FormatName, config.Width, config.Height)
 		}
 
 		return
 	}
 
-	var format *webcam.PixelFormat
-	var size *webcam.FrameSize
+	// Check if selected config exists
+	var selectedConfig *CaptureConfiguration
 	for _, config := range configs {
-		if config.FormatName == *formatFlag && config.Width == uint32(*widthFlag) {
-			format = &config.FormatID
-			size = &config.Size
+		if config.FormatName == *formatFlag && config.Width == uint32(*widthFlag) && config.Height == uint32(*heightFlag) {
+			selectedConfig = &config
 
 			break
 		}
 	}
 
-	if format == nil || size == nil {
-		log.Fatalf("No matching configuration found for format %v and width %v", *formatFlag, *widthFlag)
+	// Abort if selected config doesn't exist
+	if selectedConfig == nil {
+		log.Fatalf("could not capture, no matching configuration found for %v (%vx%v)", *formatFlag, *widthFlag, *heightFlag)
 
 		os.Exit(1)
 	}
 
-	log.Println(format, size)
+	// Set image format
+	_, width, height, err := cam.SetImageFormat(selectedConfig.FormatID, selectedConfig.Width, selectedConfig.Height)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Printf("Capturing in %v (%vx%v)", selectedConfig.FormatName, width, height)
+
+	// Start streaming and read a frame
+	if err := cam.StartStreaming(); err != nil {
+		panic(err)
+	}
+
+	if err := cam.WaitForFrame(uint32(*timeoutFlag)); err != nil {
+		panic(err)
+	}
+
+	frame, err := cam.ReadFrame()
+	if err != nil {
+		panic(err)
+	}
+
+	if len(frame) == 0 {
+		log.Fatal("could not capture, returned frame with length 0")
+	}
+
+	// Write frame to file
+	if err := ioutil.WriteFile(*outputFlag, frame, os.ModePerm); err != nil {
+		panic(err)
+	}
 }
