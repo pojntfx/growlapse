@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 
 	"github.com/blackjack/webcam"
 )
@@ -12,15 +13,18 @@ type CaptureConfiguration struct {
 	FormatName string
 	Width      uint32
 	Height     uint32
+	Size       webcam.FrameSize
 }
 
 func main() {
-	device := flag.String("device", "/dev/video0", "Device to capture from")
-	infoOnly := flag.Bool("info", false, "Print available configurations to choose from and exit")
+	deviceFlag := flag.String("device", "/dev/video0", "Device to capture from")
+	infoFlag := flag.Bool("info", false, "Print available configurations to choose from and exit")
+	formatFlag := flag.String("format", "Motion-JPEG", "Format to capture; see -info")
+	widthFlag := flag.Uint("width", 640, "Width to capture; see -info. The height will be automatically chosen.")
 
 	flag.Parse()
 
-	cam, err := webcam.Open(*device)
+	cam, err := webcam.Open(*deviceFlag)
 	if err != nil {
 		panic(err)
 	}
@@ -35,6 +39,7 @@ func main() {
 					FormatName: formatName,
 					Width:      width,
 					Height:     height,
+					Size:       size,
 				})
 
 				if size.StepWidth == 0 || size.StepHeight == 0 {
@@ -44,14 +49,30 @@ func main() {
 		}
 	}
 
-	if *infoOnly {
+	if *infoFlag {
 		for _, config := range configs {
-			log.Println(
-				"formatID:", config.FormatID,
-				"formatName:", config.FormatName,
-				"width:", config.Width,
-				"height:", config.Height,
-			)
+			log.Printf("%v (%vx%v)", config.FormatName, config.Width, config.Height)
+		}
+
+		return
+	}
+
+	var format *webcam.PixelFormat
+	var size *webcam.FrameSize
+	for _, config := range configs {
+		if config.FormatName == *formatFlag && config.Width == uint32(*widthFlag) {
+			format = &config.FormatID
+			size = &config.Size
+
+			break
 		}
 	}
+
+	if format == nil || size == nil {
+		log.Fatalf("No matching configuration found for format %v and width %v", *formatFlag, *widthFlag)
+
+		os.Exit(1)
+	}
+
+	log.Println(format, size)
 }
