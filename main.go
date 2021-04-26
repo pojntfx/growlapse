@@ -10,12 +10,13 @@ import (
 type CaptureConfiguration struct {
 	FormatID   webcam.PixelFormat
 	FormatName string
-	Sizes      []webcam.FrameSize
+	Width      uint32
+	Height     uint32
 }
 
 func main() {
 	device := flag.String("device", "/dev/video0", "Device to capture from")
-	printAvailableFormats := flag.Bool("printAvailableFormats", false, "Print available formats to choose from and exit")
+	infoOnly := flag.Bool("info", false, "Print available configurations to choose from and exit")
 
 	flag.Parse()
 
@@ -25,22 +26,32 @@ func main() {
 	}
 
 	formats := cam.GetSupportedFormats()
-	configs := map[webcam.PixelFormat]*CaptureConfiguration{}
+	configs := []CaptureConfiguration{}
 	for formatID, formatName := range formats {
-		if _, exists := configs[formatID]; !exists {
-			configs[formatID] = &CaptureConfiguration{
-				FormatID:   formatID,
-				FormatName: formatName,
-				Sizes:      []webcam.FrameSize{},
+		for _, size := range cam.GetSupportedFrameSizes(formatID) {
+			for width, height := size.MinWidth, size.MinHeight; width <= size.MaxWidth && height <= size.MaxHeight; width, height = width+size.StepWidth, height+size.StepHeight {
+				configs = append(configs, CaptureConfiguration{
+					FormatID:   formatID,
+					FormatName: formatName,
+					Width:      width,
+					Height:     height,
+				})
+
+				if size.StepWidth == 0 || size.StepHeight == 0 {
+					break
+				}
 			}
 		}
-
-		configs[formatID].Sizes = append(configs[formatID].Sizes, cam.GetSupportedFrameSizes(formatID)...)
 	}
 
-	if *printAvailableFormats {
+	if *infoOnly {
 		for _, config := range configs {
-			log.Println(config)
+			log.Println(
+				"formatID:", config.FormatID,
+				"formatName:", config.FormatName,
+				"width:", config.Width,
+				"height:", config.Height,
+			)
 		}
 	}
 }
