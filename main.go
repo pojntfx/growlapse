@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"path"
 	"time"
@@ -138,6 +141,20 @@ func main() {
 
 	// Create WebDAV client
 	webDAVClient := gowebdav.NewClient(*webdavURLFlag, *webdavUsernameFlag, *webdavPasswordFlag)
+
+	// Disable chunked encoding for better compatibility
+	webDAVClient.SetInterceptor(func(method string, rq *http.Request) {
+		if method == "PUT" && rq.Body != nil {
+			b, err := ioutil.ReadAll(rq.Body)
+			if err != nil {
+				panic(err)
+			}
+
+			rq.ContentLength = int64(len(b))
+
+			rq.Body = ioutil.NopCloser(bytes.NewReader(b))
+		}
+	})
 
 	// Create the prefix to save in
 	prefixPath := path.Join(*webdavPrefix, fmt.Sprintf("%v", year), fmt.Sprintf("%v", int(month)), fmt.Sprintf("%v", day))
