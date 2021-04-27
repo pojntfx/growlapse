@@ -7,3 +7,5 @@ require (
 	github.com/studio-b12/gowebdav v0.0.0-20210203212356-8244b5a5f51a
 	golang.org/x/sys v0.0.0-20210426080607-c94f62235c83 // indirect
 )
+
+replace github.com/studio-b12/gowebdav => /home/pojntfx/Projects/gowebdav
