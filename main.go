@@ -13,9 +13,13 @@ import (
 type CaptureConfiguration struct {
 	FormatID   webcam.PixelFormat
 	FormatName string
-	Width      uint32
-	Height     uint32
 	Size       webcam.FrameSize
+}
+
+type SelectedCaptureConfiguration struct {
+	FormatID webcam.PixelFormat
+	Width    uint32
+	Height   uint32
 }
 
 func main() {
@@ -41,36 +45,45 @@ func main() {
 	configs := []CaptureConfiguration{}
 	for formatID, formatName := range formats {
 		for _, size := range cam.GetSupportedFrameSizes(formatID) {
-			for width, height := size.MinWidth, size.MinHeight; width <= size.MaxWidth && height <= size.MaxHeight; width, height = width+size.StepWidth, height+size.StepHeight {
-				configs = append(configs, CaptureConfiguration{
-					FormatID:   formatID,
-					FormatName: formatName,
-					Width:      width,
-					Height:     height,
-					Size:       size,
-				})
-
-				if size.StepWidth == 0 || size.StepHeight == 0 {
-					break
-				}
-			}
+			configs = append(configs, CaptureConfiguration{
+				FormatID:   formatID,
+				FormatName: formatName,
+				Size:       size,
+			})
 		}
 	}
 
 	// Print configurations and exit if -info was supplied
 	if *infoFlag {
 		for _, config := range configs {
-			fmt.Printf("%v (%vx%v)\n", config.FormatName, config.Width, config.Height)
+			fmt.Printf("%v (min=%v:step=%v:max=%v x min=%v:step=%v:max=%v)\n", config.FormatName, config.Size.MinWidth, config.Size.StepWidth, config.Size.MaxWidth, config.Size.MinHeight, config.Size.StepHeight, config.Size.MaxHeight)
 		}
 
 		return
 	}
 
 	// Check if selected config exists
-	var selectedConfig *CaptureConfiguration
+	var selectedConfig *SelectedCaptureConfiguration
 	for _, config := range configs {
-		if config.FormatName == *formatFlag && config.Width == uint32(*widthFlag) && config.Height == uint32(*heightFlag) {
-			selectedConfig = &config
+		width := uint32(*widthFlag)
+		height := uint32(*heightFlag)
+
+		if config.FormatName == *formatFlag &&
+			width >= config.Size.MinWidth && width <= config.Size.MaxWidth &&
+			height >= config.Size.MinHeight && height <= config.Size.MaxHeight {
+			if config.Size.StepWidth != 0 && width%config.Size.StepWidth != 0 {
+				continue
+			}
+
+			if config.Size.StepHeight != 0 && height%config.Size.StepHeight != 0 {
+				continue
+			}
+
+			selectedConfig = &SelectedCaptureConfiguration{
+				FormatID: config.FormatID,
+				Width:    width,
+				Height:   height,
+			}
 
 			break
 		}
@@ -89,7 +102,12 @@ func main() {
 		panic(err)
 	}
 
-	log.Printf("Capturing in %v (%vx%v)", selectedConfig.FormatName, width, height)
+	log.Printf("Capturing in %v (%vx%v)", *formatFlag, width, height)
+
+	// Set buffer to one frame
+	if err := cam.SetBufferCount(1); err != nil {
+		panic(err)
+	}
 
 	// Start streaming and read a frame
 	if err := cam.StartStreaming(); err != nil {
