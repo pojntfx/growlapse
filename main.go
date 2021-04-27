@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/blackjack/webcam"
+	"github.com/robfig/cron/v3"
 	"github.com/studio-b12/gowebdav"
 )
 
@@ -38,7 +39,9 @@ func main() {
 	webdavURLFlag := flag.String("webdavURL", "https://example.com/remote.php/dav/files/myusername/", "URL of the WebDAV server to upload to")
 	webdavUsernameFlag := flag.String("webdavUsername", "myusername", "Username for the WebDAV server to upload to")
 	webdavPasswordFlag := flag.String("webdavPassword", "mypassword", "Password for the WebDAV server to upload to")
-	webdavPrefix := flag.String("webdavPrefix", "/Growlapse", "Prefix to upload to")
+	webdavPrefixFlag := flag.String("webdavPrefix", "/Growlapse", "Prefix to upload to")
+	cronExpressionFlag := flag.String("cron", "*/60 * * * *", "Cron expression to specify interval in which an image should be captured & uploaded; the default value does this one every hour.")
+	captureNowFlag := flag.Bool("captureNow", false, "Capture and upload an image; then exit")
 
 	flag.Parse()
 
@@ -110,60 +113,83 @@ func main() {
 		panic(err)
 	}
 
-	log.Printf("Capturing in %v (%vx%v)", *formatFlag, width, height)
+	Capture := func() {
+		log.Printf("Capturing in %v (%vx%v)", *formatFlag, width, height)
 
-	// Set buffer to one frame
-	if err := cam.SetBufferCount(1); err != nil {
-		panic(err)
-	}
-
-	// Start streaming and read a frame
-	if err := cam.StartStreaming(); err != nil {
-		panic(err)
-	}
-
-	if err := cam.WaitForFrame(uint32(*timeoutFlag)); err != nil {
-		panic(err)
-	}
-
-	frame, err := cam.ReadFrame()
-	if err != nil {
-		panic(err)
-	}
-
-	if len(frame) == 0 {
-		log.Fatal("could not capture, returned frame with length 0")
-	}
-
-	// Get and parse the current date
-	now := time.Now().UTC()
-	year, month, day := now.Date()
-
-	// Create WebDAV client
-	webDAVClient := gowebdav.NewClient(*webdavURLFlag, *webdavUsernameFlag, *webdavPasswordFlag)
-
-	// Disable chunked encoding for better compatibility
-	webDAVClient.SetInterceptor(func(method string, rq *http.Request) {
-		if method == "PUT" && rq.Body != nil {
-			b, err := ioutil.ReadAll(rq.Body)
-			if err != nil {
-				panic(err)
-			}
-
-			rq.ContentLength = int64(len(b))
-
-			rq.Body = ioutil.NopCloser(bytes.NewReader(b))
+		// Set buffer to one frame
+		if err := cam.SetBufferCount(1); err != nil {
+			panic(err)
 		}
-	})
 
-	// Create the prefix to save in
-	prefixPath := path.Join(*webdavPrefix, fmt.Sprintf("%v", year), fmt.Sprintf("%v", int(month)), fmt.Sprintf("%v", day))
-	if err := webDAVClient.MkdirAll(prefixPath, os.ModePerm); err != nil {
-		panic(err)
+		// Start streaming and read a frame
+		if err := cam.StartStreaming(); err != nil {
+			panic(err)
+		}
+
+		if err := cam.WaitForFrame(uint32(*timeoutFlag)); err != nil {
+			panic(err)
+		}
+
+		frame, err := cam.ReadFrame()
+		if err != nil {
+			panic(err)
+		}
+
+		if len(frame) == 0 {
+			log.Fatal("could not capture, returned frame with length 0")
+		}
+
+		// Get and parse the current date
+		now := time.Now().UTC()
+		year, month, day := now.Date()
+
+		// Create WebDAV client
+		webDAVClient := gowebdav.NewClient(*webdavURLFlag, *webdavUsernameFlag, *webdavPasswordFlag)
+
+		// Disable chunked encoding for better compatibility
+		webDAVClient.SetInterceptor(func(method string, rq *http.Request) {
+			if method == "PUT" && rq.Body != nil {
+				b, err := ioutil.ReadAll(rq.Body)
+				if err != nil {
+					panic(err)
+				}
+
+				rq.ContentLength = int64(len(b))
+
+				rq.Body = ioutil.NopCloser(bytes.NewReader(b))
+			}
+		})
+
+		// Create the prefix to save in
+		prefixPath := path.Join(*webdavPrefixFlag, fmt.Sprintf("%v", year), fmt.Sprintf("%v", int(month)), fmt.Sprintf("%v", day))
+		if err := webDAVClient.MkdirAll(prefixPath, os.ModePerm); err != nil {
+			panic(err)
+		}
+
+		// Write frame to file
+		if err := webDAVClient.Write(path.Join(prefixPath, now.Format(time.RFC3339)+".jpeg"), frame, os.ModePerm); err != nil {
+			panic(err)
+		}
+
+		// Stop streaming
+		if err := cam.StopStreaming(); err != nil {
+			panic(err)
+		}
 	}
 
-	// Write frame to file
-	if err := webDAVClient.Write(path.Join(prefixPath, now.Format(time.RFC3339)+".jpeg"), frame, os.ModePerm); err != nil {
-		panic(err)
+	// Capture now
+	if *captureNowFlag {
+		Capture()
+
+		return
 	}
+
+	// Capture periodically
+	log.Printf("Capturing in %v (%vx%v) using cron expression %v", *formatFlag, width, height, *cronExpressionFlag)
+
+	scheduler := cron.New()
+
+	scheduler.AddFunc(*cronExpressionFlag, Capture)
+
+	scheduler.Run()
 }
