@@ -3,11 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
+	"path"
+	"time"
 
 	"github.com/blackjack/webcam"
+	"github.com/studio-b12/gowebdav"
 )
 
 type CaptureConfiguration struct {
@@ -30,7 +32,10 @@ func main() {
 	widthFlag := flag.Uint("width", 640, "Width to capture; see -info")
 	heightFlag := flag.Uint("height", 360, "Height to capture; see -info")
 	timeoutFlag := flag.Uint("timeout", 5, "Time in seconds to wait for a frame")
-	outputFlag := flag.String("out", "image.jpeg", "Output filename")
+	webdavURLFlag := flag.String("webdavURL", "https://example.com/remote.php/dav/files/myusername/", "URL of the WebDAV server to upload to")
+	webdavUsernameFlag := flag.String("webdavUsername", "myusername", "Username for the WebDAV server to upload to")
+	webdavPasswordFlag := flag.String("webdavPassword", "mypassword", "Password for the WebDAV server to upload to")
+	webdavPrefix := flag.String("webdavPrefix", "/Growlapse", "Prefix to upload to")
 
 	flag.Parse()
 
@@ -127,8 +132,21 @@ func main() {
 		log.Fatal("could not capture, returned frame with length 0")
 	}
 
+	// Get and parse the current date
+	now := time.Now().UTC()
+	year, month, day := now.Date()
+
+	// Create WebDAV client
+	webDAVClient := gowebdav.NewClient(*webdavURLFlag, *webdavUsernameFlag, *webdavPasswordFlag)
+
+	// Create the prefix to save in
+	prefixPath := path.Join(*webdavPrefix, fmt.Sprintf("%v", year), fmt.Sprintf("%v", int(month)), fmt.Sprintf("%v", day))
+	if err := webDAVClient.MkdirAll(prefixPath, os.ModePerm); err != nil {
+		panic(err)
+	}
+
 	// Write frame to file
-	if err := ioutil.WriteFile(*outputFlag, frame, os.ModePerm); err != nil {
+	if err := webDAVClient.Write(path.Join(prefixPath, now.Format(time.RFC3339)+".jpeg"), frame, os.ModePerm); err != nil {
 		panic(err)
 	}
 }

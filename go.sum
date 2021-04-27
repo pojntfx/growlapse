@@ -1,4 +1,6 @@
 github.com/blackjack/webcam v0.0.0-20200313125108-10ed912a8539 h1:1aIqYfg9s9RETAJHGfVKZW4ok0b22p4QTwk8MsdRtPs=
 github.com/blackjack/webcam v0.0.0-20200313125108-10ed912a8539/go.mod h1:G0X+rEqYPWSq0dG8OMf8M446MtKytzpPjgS3HbdOJZ4=
+github.com/studio-b12/gowebdav v0.0.0-20210203212356-8244b5a5f51a h1:Zq18I/ONL/ynTg+mhn78lyh14vNjOqaWfLKVZDwFUk4=
+github.com/studio-b12/gowebdav v0.0.0-20210203212356-8244b5a5f51a/go.mod h1:gCcfDlA1Y7GqOaeEKw5l9dOGx1VLdc/HuQSlQAaZ30s=
 golang.org/x/sys v0.0.0-20210426080607-c94f62235c83 h1:kHSDPqCtsHZOg0nVylfTo20DDhE9gG4Y0jn7hKQ0QAM=
 golang.org/x/sys v0.0.0-20210426080607-c94f62235c83/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
