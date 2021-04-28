@@ -1,0 +1,21 @@
+{
+  "short_name": "growlapse",
+  "name": "growlapse",
+  "icons": [
+    {
+      "src": "/growlapse/web/icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "scope": "/growlapse/",
+  "start_url": "/growlapse/",
+  "background_color": "#151515",
+  "theme_color": "#151515",
+  "display": "standalone"
+}
