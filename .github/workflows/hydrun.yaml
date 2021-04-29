@@ -20,9 +20,9 @@ jobs:
           curl -L -o /tmp/hydrun https://github.com/pojntfx/hydrun/releases/download/latest/hydrun.linux-$(uname -m)
           sudo install /tmp/hydrun /usr/local/bin
       - name: Build agent with hydrun
-        run: hydrun -a amd64,arm64,arm32v6 ./Hydrunfile
+        run: hydrun -o golang:1.16.3 -a amd64,arm64,arm ./Hydrunfile
       - name: Build frontend with hydrun
-        run: hydrun "./Hydrunfile frontend"
+        run: hydrun -o golang:1.16.3 "./Hydrunfile frontend"
       - name: Publish to GitHub releases
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: marvinpinto/action-automatic-releases@latest
