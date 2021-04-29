@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta httpequiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="Felicitas Pojtinger">
-<meta content="Visualize plant growth over time." name="description">
+<meta name="description" content="Visualize plant growth over time.">
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
 <meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:43311/">
+<meta property="og:url" content="http://127.0.0.1:38219/">
 <meta property="og:title" content="Growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
 <meta property="og:type" content="website">
@@ -19,7 +19,7 @@ Growlapse
 <link rel="icon" type="image/png" href="/growlapse/web/icon.png">
 <link rel="apple-touch-icon" href="/growlapse/web/icon.png">
 <link rel="manifest" href="/growlapse/manifest.webmanifest">
-<link href="/growlapse/app.css" type="text/css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="/growlapse/app.css">
 <script defer src="/growlapse/wasm_exec.js"></script>
 <script defer src="/growlapse/app.js"></script>
 <link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css">
@@ -33,9 +33,26 @@ Growlapse
 <body>
 <div>
 <div id="app-pre-render">
-<h1>
-Growlapse
-</h1>
+<form>
+<label for="webdavURL">
+WebDAV URL: 
+</label>
+<input type="url" id="webdavURL" name="webdavURL" required value>
+<br>
+<label for="webdavUsername">
+WebDAV Username: 
+</label>
+<input type="text" id="webdavUsername" name="webdavUsername" value required>
+<br>
+<label for="webdavPassword">
+WebDAV Password: 
+</label>
+<input value type="password" id="webdavPassword" name="webdavPassword">
+<br>
+<button type="submit">
+Login
+</button>
+</form>
 </div>
 <div id="app-wasm-loader" class="goapp-app-info">
 <img id="app-wasm-loader-icon" class="goapp-logo goapp-spin" src="/growlapse/web/icon.png">
