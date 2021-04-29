@@ -14,7 +14,7 @@ frontend:
 build: agent frontend
 
 release-agent:
-	CGO_ENABLED=1 go build -ldflags="-extldflags=-static" -tags netgo -o out/release/growlapse-agent/growlapse-agent.linux-$$(uname -m) cmd/growlapse-agent/main.go
+	[ "$$(uname -m)" = 'armv6l' ] && go build -o out/release/growlapse-agent/growlapse-agent.linux-$$(uname -m) cmd/growlapse-agent/main.go || CGO_ENABLED=1 go build -ldflags="-extldflags=-static" -tags netgo -o out/release/growlapse-agent/growlapse-agent.linux-$$(uname -m) cmd/growlapse-agent/main.go\
 
 release-frontend: frontend
 	rm -rf out/release/growlapse-frontend
