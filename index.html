@@ -8,7 +8,7 @@
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
 <meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:38219/">
+<meta property="og:url" content="http://127.0.0.1:35697/">
 <meta property="og:title" content="Growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
 <meta property="og:type" content="website">
@@ -34,20 +34,20 @@ Growlapse
 <div>
 <div id="app-pre-render">
 <form>
-<label for="webdavURL">
-WebDAV URL: 
+<label for="webDAVURL">
+webDAV URL: 
 </label>
-<input type="url" id="webdavURL" name="webdavURL" required value>
+<input required value type="url" id="webDAVURL" name="webDAVURL">
 <br>
-<label for="webdavUsername">
-WebDAV Username: 
+<label for="webDAVUsername">
+webDAV Username: 
 </label>
-<input type="text" id="webdavUsername" name="webdavUsername" value required>
+<input name="webDAVUsername" value required type="text" id="webDAVUsername">
 <br>
-<label for="webdavPassword">
-WebDAV Password: 
+<label for="webDAVPassword">
+webDAV Password: 
 </label>
-<input value type="password" id="webdavPassword" name="webdavPassword">
+<input type="password" id="webDAVPassword" name="webDAVPassword" value>
 <br>
 <button type="submit">
 Login
@@ -56,7 +56,7 @@ Login
 </div>
 <div id="app-wasm-loader" class="goapp-app-info">
 <img id="app-wasm-loader-icon" class="goapp-logo goapp-spin" src="/growlapse/web/icon.png">
-<p id="app-wasm-loader-label" class="goapp-label">
+<p class="goapp-label" id="app-wasm-loader-label">
 Visualize plant growth over time.
 </p>
 </div>
