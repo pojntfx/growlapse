@@ -16,7 +16,7 @@ Nextcloud can be used as a backend for Growlapse, but for safe access, some step
 ## Set up Nextcloud for the Frontend
 
 1. Install [WebAppPassword](https://apps.nextcloud.com/apps/webapppassword) on your Nextcloud
-2. Visit `$NX_URL/settings/admin/webapppassword` and add `https://pojntfx.github.io/growlapse/,https://pojntfx.github.io/growlapse` to "Allowed origins"
+2. Visit `$NX_URL/settings/admin/webapppassword` and add `https://pojntfx.github.io` to "Allowed origins"
 3. Install [Guests](https://apps.nextcloud.com/apps/guests) on your Nextcloud
 4. Visit `$NX_URL/settings/admin/guests` and add `webapppassword` to "app whitelist"
 5. Logout
