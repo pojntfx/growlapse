@@ -21,8 +21,8 @@ jobs:
           sudo install /tmp/hydrun /usr/local/bin
       - name: Build agent with hydrun
         run: hydrun -o golang:1.16.3 -a amd64,arm64/v8,arm/v7 ./Hydrunfile
-      - name: Build agent with hydrun (armv6l)
-        run: hydrun -o golang:1.16.3 -a arm/v6 -e '-e QEMU_CPU=arm1176' ./Hydrunfile
+      # - name: Build agent with hydrun (armv6l)
+      #   run: hydrun -o golang:1.16.3 -a arm/v6 -e '-e QEMU_CPU=arm1176' ./Hydrunfile
       - name: Build frontend with hydrun
         run: hydrun -o golang:1.16.3 "./Hydrunfile frontend"
       - name: Publish to GitHub releases
