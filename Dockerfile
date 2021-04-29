@@ -1,5 +1,5 @@
 # Build container
-FROM debian AS build
+FROM golang:1.16.3 AS build
 
 # Setup environment
 RUN mkdir -p /data
