@@ -2,6 +2,13 @@ github.com/andybalholm/brotli v1.0.0 h1:7UCwP93aiSfvWpapti8g88vVVGp2qqtGyePsSuDa
 github.com/andybalholm/brotli v1.0.0/go.mod h1:loMXtMfwqflxFJPmdbJO0a3KNoPuLBgiu3qAvBg8x/Y=
 github.com/blackjack/webcam v0.0.0-20200313125108-10ed912a8539 h1:1aIqYfg9s9RETAJHGfVKZW4ok0b22p4QTwk8MsdRtPs=
 github.com/blackjack/webcam v0.0.0-20200313125108-10ed912a8539/go.mod h1:G0X+rEqYPWSq0dG8OMf8M446MtKytzpPjgS3HbdOJZ4=
+github.com/d2r2/go-bsbmp v0.0.0-20190515110334-3b4b3aea8375 h1:vdUOwcZdV+bBfGUUh5oPPWSzw9p+lBnNSuGgQwGpCH4=
+github.com/d2r2/go-bsbmp v0.0.0-20190515110334-3b4b3aea8375/go.mod h1:3iz1WHlYJU9b4NJei+Q8G7DN3K05arcCMlOQ+qNCDjo=
+github.com/d2r2/go-i2c v0.0.0-20191123181816-73a8a799d6bc h1:HLRSIWzUGMLCq4ldt0W1GLs3nnAxa5EGoP+9qHgh6j0=
+github.com/d2r2/go-i2c v0.0.0-20191123181816-73a8a799d6bc/go.mod h1:AwxDPnsgIpy47jbGXZHA9Rv7pDkOJvQbezPuK1Y+nNk=
+github.com/d2r2/go-logger v0.0.0-20181221090742-9998a510495e h1:ZG3JBA6rPRl0xxQ+nNSfO7tor8w+CNCTs05DNJQYbLM=
+github.com/d2r2/go-logger v0.0.0-20181221090742-9998a510495e/go.mod h1:oA+9PUt8F1aKJ6o4YU1T120i7sgo1T6/1LWEEBy0BSs=
+github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gomarkdown/markdown v0.0.0-20210408062403-ad838ccf8cdd/go.mod h1:aii0r/K0ZnHv7G0KF7xy1v0A7s2Ljrb5byB7MO5p6TU=
 github.com/google/uuid v1.2.0 h1:qJYtXnJRWmpe7m/3XlyhrsLrEURqHRM2kxzoxXqyUDs=
