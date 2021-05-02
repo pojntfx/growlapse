@@ -6,9 +6,9 @@
 <meta name="author" content="Felicitas Pojtinger">
 <meta name="description" content="Visualize plant growth over time.">
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
-<meta content="#151515" name="theme-color">
+<meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:41953/">
+<meta property="og:url" content="http://127.0.0.1:45133/">
 <meta property="og:title" content="Growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
 <meta property="og:type" content="website">
@@ -19,11 +19,11 @@ Growlapse
 <link rel="icon" type="image/png" href="/growlapse/web/icon.png">
 <link rel="apple-touch-icon" href="/growlapse/web/icon.png">
 <link rel="manifest" href="/growlapse/manifest.webmanifest">
-<link rel="stylesheet" href="/growlapse/app.css" type="text/css">
+<link type="text/css" rel="stylesheet" href="/growlapse/app.css">
 <script defer src="/growlapse/wasm_exec.js"></script>
 <script defer src="/growlapse/app.js"></script>
-<link href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css" type="text/css" rel="stylesheet">
-<link href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly-addons.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css" type="text/css">
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly-addons.css">
 <link type="text/css" rel="stylesheet" href="/growlapse/web/index.css">
 <meta property="og:url" content="https://pojntfx.github.io/growlapse/">
 <meta property="og:title" content="growlapse">
@@ -37,7 +37,7 @@ Growlapse
 <label for="webDAVURL">
 webDAV URL: 
 </label>
-<input id="webDAVURL" name="webDAVURL" required value type="url">
+<input type="url" id="webDAVURL" name="webDAVURL" required value>
 <br>
 <label for="webDAVUsername">
 webDAV Username: 
@@ -47,7 +47,7 @@ webDAV Username:
 <label for="webDAVPassword">
 webDAV Password: 
 </label>
-<input name="webDAVPassword" value type="password" id="webDAVPassword">
+<input type="password" id="webDAVPassword" name="webDAVPassword" value>
 <br>
 <button type="submit">
 Login
