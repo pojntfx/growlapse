@@ -31,8 +31,7 @@ void loop() {
       Serial.print("I2C device found at 0x");
       if (address < 16)
         Serial.print("0");
-      Serial.print(address, HEX);
-      Serial.println("  !");
+      Serial.println(address, HEX);
 
       deviceCount++;
     } else if (err == 4) {
