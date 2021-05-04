@@ -24,6 +24,10 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/robfig/cron v1.2.0 h1:ZjScXvvxeQ63Dbyxy76Fj3AT3Ut0aKsyd2/tl3DTMuQ=
 github.com/robfig/cron/v3 v3.0.1 h1:WdRxkvbJztn8LMz/QEvLN5sBU+xKpSqwwUO1Pjr4qDs=
 github.com/robfig/cron/v3 v3.0.1/go.mod h1:eQICP3HwyT7UooqI/z+Ov+PtYAWygg1TEWWzGIFLtro=
+github.com/stianeikeland/go-rpio v1.0.0 h1:9a5DDConuUBSBR4mYsr9dV0uAxGypybCumg0KR2o3fc=
+github.com/stianeikeland/go-rpio v3.0.0+incompatible h1:AWDcfdnPPZ7Jikis6HNj0EgujMfB4t7oi4nZd5cIqko=
+github.com/stianeikeland/go-rpio/v4 v4.4.0 h1:LScvNyXHF412co42LG5t7bvBDbtDAhLF828ebaGqmjA=
+github.com/stianeikeland/go-rpio/v4 v4.4.0/go.mod h1:BkK52zk+FRk8wCTDf88/86Sojc+NfUiCAHd1ZV3RuTM=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/studio-b12/gowebdav v0.0.0-20210203212356-8244b5a5f51a h1:Zq18I/ONL/ynTg+mhn78lyh14vNjOqaWfLKVZDwFUk4=
