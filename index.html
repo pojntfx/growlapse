@@ -8,9 +8,9 @@
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
 <meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:45167/">
+<meta property="og:url" content="http://127.0.0.1:38921/">
 <meta property="og:title" content="Growlapse">
-<meta property="og:description" content="Visualize plant growth over time.">
+<meta content="Visualize plant growth over time." property="og:description">
 <meta content="website" property="og:type">
 <meta property="og:image" content>
 <title>
@@ -18,7 +18,7 @@ Growlapse
 </title>
 <link rel="icon" type="image/png" href="/growlapse/web/icon.png">
 <link rel="apple-touch-icon" href="/growlapse/web/icon.png">
-<link href="/growlapse/manifest.webmanifest" rel="manifest">
+<link rel="manifest" href="/growlapse/manifest.webmanifest">
 <link type="text/css" rel="stylesheet" href="/growlapse/app.css">
 <script defer src="/growlapse/wasm_exec.js"></script>
 <script defer src="/growlapse/app.js"></script>
@@ -37,17 +37,17 @@ Growlapse
 <label for="webDAVURL">
 webDAV URL: 
 </label>
-<input type="url" id="webDAVURL" name="webDAVURL" required value>
+<input name="webDAVURL" required value type="url" id="webDAVURL">
 <br>
 <label for="webDAVUsername">
 webDAV Username: 
 </label>
-<input name="webDAVUsername" value required type="text" id="webDAVUsername">
+<input id="webDAVUsername" name="webDAVUsername" value required type="text">
 <br>
 <label for="webDAVPassword">
 webDAV Password: 
 </label>
-<input name="webDAVPassword" value type="password" id="webDAVPassword">
+<input type="password" id="webDAVPassword" name="webDAVPassword" value>
 <br>
 <button type="submit">
 Login
