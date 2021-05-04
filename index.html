@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta httpequiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="Felicitas Pojtinger">
-<meta content="Visualize plant growth over time." name="description">
+<meta name="description" content="Visualize plant growth over time.">
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
 <meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:37077/">
+<meta property="og:url" content="http://127.0.0.1:45167/">
 <meta property="og:title" content="Growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
-<meta property="og:type" content="website">
+<meta content="website" property="og:type">
 <meta property="og:image" content>
 <title>
 Growlapse
 </title>
 <link rel="icon" type="image/png" href="/growlapse/web/icon.png">
 <link rel="apple-touch-icon" href="/growlapse/web/icon.png">
-<link rel="manifest" href="/growlapse/manifest.webmanifest">
+<link href="/growlapse/manifest.webmanifest" rel="manifest">
 <link type="text/css" rel="stylesheet" href="/growlapse/app.css">
 <script defer src="/growlapse/wasm_exec.js"></script>
 <script defer src="/growlapse/app.js"></script>
@@ -42,12 +42,12 @@ webDAV URL:
 <label for="webDAVUsername">
 webDAV Username: 
 </label>
-<input required type="text" id="webDAVUsername" name="webDAVUsername" value>
+<input name="webDAVUsername" value required type="text" id="webDAVUsername">
 <br>
 <label for="webDAVPassword">
 webDAV Password: 
 </label>
-<input id="webDAVPassword" name="webDAVPassword" value type="password">
+<input name="webDAVPassword" value type="password" id="webDAVPassword">
 <br>
 <button type="submit">
 Login
@@ -55,7 +55,7 @@ Login
 </form>
 </div>
 <div class="goapp-app-info" id="app-wasm-loader">
-<img class="goapp-logo goapp-spin" src="/growlapse/web/icon.png" id="app-wasm-loader-icon">
+<img id="app-wasm-loader-icon" class="goapp-logo goapp-spin" src="/growlapse/web/icon.png">
 <p id="app-wasm-loader-label" class="goapp-label">
 Visualize plant growth over time.
 </p>
