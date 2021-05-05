@@ -1,19 +1,15 @@
 package drivers
 
 import (
-	"time"
-
 	"github.com/d2r2/go-i2c"
 )
 
 const (
-	outRegister = 0x2
-
-	getCapacitanceCommand = 0x0
-	requestLightCommand   = 0x3
-	getLightCommand       = 0x4
-	resetCommand          = 0x6
-	setAddressCommand     = 0x1
+	capacitanceRegister  = 0x0
+	addressRegister      = 0x1
+	requestLightRegister = 0x3
+	lightRegister        = 0x4
+	resetRegister        = 0x6
 )
 
 type Chirp struct {
@@ -27,19 +23,19 @@ func NewChirp(i2c *i2c.I2C) *Chirp {
 }
 
 func (c *Chirp) ReadCapacitance() (uint16, error) {
-	return c.read(getCapacitanceCommand)
+	return c.read(capacitanceRegister)
 }
 
 func (c *Chirp) RequestLightMeasurement() error {
-	return c.write(requestLightCommand)
+	return c.write(requestLightRegister)
 }
 
 func (c *Chirp) ReadLight() (uint16, error) {
-	return c.read(getLightCommand)
+	return c.read(lightRegister)
 }
 
 func (c *Chirp) Reset() error {
-	if err := c.write(resetCommand); err != nil {
+	if err := c.write(resetRegister); err != nil {
 		return err
 	}
 
@@ -47,11 +43,7 @@ func (c *Chirp) Reset() error {
 }
 
 func (c *Chirp) SetAddress(newAddress byte) error {
-	if err := c.write(setAddressCommand); err != nil {
-		return err
-	}
-
-	if err := c.write(newAddress); err != nil {
+	if err := c.i2c.WriteRegU8(addressRegister, newAddress); err != nil {
 		return err
 	}
 
@@ -59,17 +51,9 @@ func (c *Chirp) SetAddress(newAddress byte) error {
 }
 
 func (c *Chirp) write(value byte) error {
-	_, err := c.i2c.WriteBytes([]byte{value})
-
-	return err
+	return c.i2c.WriteRegU8(value, 0)
 }
 
 func (c *Chirp) read(register byte) (uint16, error) {
-	if err := c.write(register); err != nil {
-		return 0, err
-	}
-
-	time.Sleep(time.Millisecond * 20) // Wait for the microcontroller, as per to official example
-
-	return c.i2c.ReadRegU16BE(outRegister)
+	return c.i2c.ReadRegU16BE(register)
 }

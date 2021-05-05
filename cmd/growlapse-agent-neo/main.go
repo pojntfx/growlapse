@@ -12,7 +12,7 @@ import (
 
 func main() {
 	pumpsFlag := flag.String("pumps", "plant_one:17,plant_two:27,plant_three:22", "Pumps to control; comma-seperated list in format name:gpio_pin")
-	moistureSensorsFlag := flag.String("moistureSensors", "plant_one:1:0x30,plant_two:1:0x31,plant_three:1:0x32", "Moisture sensors to manage; comma-seperated list in format name:i2c_bus:i2c_address")
+	moistureSensorsFlag := flag.String("moistureSensors", "plant_one:1:0x20,plant_two:1:0x30,plant_three:1:0x32", "Moisture sensors to manage; comma-seperated list in format name:i2c_bus:i2c_address")
 
 	testPumpsFlag := flag.Bool("testPumps", false, "Test the pumps by toggling them on/off")
 	testMoistureSensorsFlag := flag.Bool("testMoistureSensors", false, "Test the moisture sensors by measuring & reading all available values")

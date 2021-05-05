@@ -2,6 +2,7 @@ package devices
 
 import (
 	"errors"
+	"time"
 
 	"github.com/d2r2/go-i2c"
 	"github.com/d2r2/go-logger"
@@ -48,6 +49,9 @@ func (p *MoistureSensors) Open() error {
 		p.nameToChirpMap[name] = chirp
 		p.nameToBusMap[name] = bus
 	}
+
+	// Wait for the sensors to boot
+	time.Sleep(time.Second)
 
 	return nil
 }
