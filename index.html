@@ -6,20 +6,20 @@
 <meta name="author" content="Felicitas Pojtinger">
 <meta name="description" content="Visualize plant growth over time.">
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
-<meta name="theme-color" content="#151515">
+<meta content="#151515" name="theme-color">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:46251/">
+<meta property="og:url" content="http://127.0.0.1:46837/">
 <meta property="og:title" content="Growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
 <meta property="og:type" content="website">
-<meta content property="og:image">
+<meta property="og:image" content>
 <title>
 Growlapse
 </title>
 <link rel="icon" type="image/png" href="/growlapse/web/icon.png">
 <link rel="apple-touch-icon" href="/growlapse/web/icon.png">
 <link rel="manifest" href="/growlapse/manifest.webmanifest">
-<link type="text/css" rel="stylesheet" href="/growlapse/app.css">
+<link rel="stylesheet" href="/growlapse/app.css" type="text/css">
 <script defer src="/growlapse/wasm_exec.js"></script>
 <script defer src="/growlapse/app.js"></script>
 <link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css">
@@ -37,7 +37,7 @@ Growlapse
 <label for="webDAVURL">
 webDAV URL: 
 </label>
-<input id="webDAVURL" name="webDAVURL" required value type="url">
+<input name="webDAVURL" required value type="url" id="webDAVURL">
 <br>
 <label for="webDAVUsername">
 webDAV Username: 
@@ -55,7 +55,7 @@ Login
 </form>
 </div>
 <div id="app-wasm-loader" class="goapp-app-info">
-<img src="/growlapse/web/icon.png" id="app-wasm-loader-icon" class="goapp-logo goapp-spin">
+<img class="goapp-logo goapp-spin" src="/growlapse/web/icon.png" id="app-wasm-loader-icon">
 <p id="app-wasm-loader-label" class="goapp-label">
 Visualize plant growth over time.
 </p>
