@@ -43,7 +43,7 @@ func (p *MoistureSensors) Open() error {
 		chirp := drivers.NewChirp(bus)
 
 		if err := chirp.Reset(); err != nil {
-			return nil
+			return err
 		}
 
 		p.nameToChirpMap[name] = chirp

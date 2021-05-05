@@ -13,9 +13,11 @@ import (
 func main() {
 	pumpsFlag := flag.String("pumps", "plant_one:17,plant_two:27,plant_three:22", "Pumps to control; comma-seperated list in format name:gpio_pin")
 	moistureSensorsFlag := flag.String("moistureSensors", "plant_one:1:0x20,plant_two:1:0x30,plant_three:1:0x32", "Moisture sensors to manage; comma-seperated list in format name:i2c_bus:i2c_address")
+	environmentSensorsFlag := flag.String("environmentSensors", "room_one:1:0x77", "Environment sensors to manage; comma-seperated list in format name:i2c_bus:i2c_address")
 
 	testPumpsFlag := flag.Bool("testPumps", false, "Test the pumps by toggling them on/off")
 	testMoistureSensorsFlag := flag.Bool("testMoistureSensors", false, "Test the moisture sensors by measuring & reading all available values")
+	testEnvironmentSensorsFlag := flag.Bool("testEnvironmentSensors", false, "Test the environment sensors by measuring & reading all available values")
 
 	verboseFlag := flag.Bool("verbose", false, "Enable verbose logging")
 
@@ -53,8 +55,28 @@ func main() {
 		moistureSensorsMap[name] = [2]byte{byte(bus), byte(address)}
 	}
 
+	environmentSensorsMap := map[string][2]byte{}
+	for _, environmentSensor := range strings.Split(*environmentSensorsFlag, ",") {
+		parts := strings.Split(environmentSensor, ":")
+
+		name := parts[0]
+
+		bus, err := strconv.Atoi(parts[1])
+		if err != nil {
+			panic(err)
+		}
+
+		address, err := strconv.ParseUint(strings.Replace(parts[2], "0x", "", -1), 16, 8)
+		if err != nil {
+			panic(err)
+		}
+
+		environmentSensorsMap[name] = [2]byte{byte(bus), byte(address)}
+	}
+
 	pumps := devices.NewPumps(pumpMap)
 	moistureSensors := devices.NewMoistureSensors(moistureSensorsMap, *verboseFlag)
+	environmentSensors := devices.NewEnvironmentSensors(environmentSensorsMap, *verboseFlag)
 
 	if err := pumps.Open(); err != nil {
 		panic(err)
@@ -65,6 +87,11 @@ func main() {
 		panic(err)
 	}
 	defer moistureSensors.Close()
+
+	if err := environmentSensors.Open(); err != nil {
+		panic(err)
+	}
+	defer environmentSensors.Close()
 
 	if *testPumpsFlag {
 		log.Println("starting pump test")
@@ -100,7 +127,7 @@ func main() {
 			log.Printf("moisture level on sensor %v: %v", name, moistureLevel)
 		}
 
-		log.Println("requesting light measurement on all sensors")
+		log.Println("requesting light measurement from all sensors")
 
 		if err := moistureSensors.RequestLightMeasurementForAllSensors(); err != nil {
 			panic(err)
@@ -120,5 +147,44 @@ func main() {
 		}
 
 		log.Println("moisture sensor test done")
+	}
+
+	if *testEnvironmentSensorsFlag {
+		log.Printf("starting environment sensor test for sensors %v", environmentSensorsMap)
+
+		log.Println("requesting temperature from all sensors")
+
+		temperatures, err := environmentSensors.GetTemperatureFromAllSensors()
+		if err != nil {
+			panic(err)
+		}
+
+		for name, temperature := range temperatures {
+			log.Printf("temperature level on sensor %v: %v °C", name, temperature)
+		}
+
+		log.Println("requesting pressure from all sensors")
+
+		pressures, err := environmentSensors.GetPressureFromAllSensors()
+		if err != nil {
+			panic(err)
+		}
+
+		for name, pressure := range pressures {
+			log.Printf("pressure level on sensor %v: %v Pa", name, pressure)
+		}
+
+		log.Println("requesting altitude from all sensors")
+
+		altitudes, err := environmentSensors.GetAltitudeFromAllSensors()
+		if err != nil {
+			panic(err)
+		}
+
+		for name, altitude := range altitudes {
+			log.Printf("altitude on sensor %v: %v m", name, altitude)
+		}
+
+		log.Println("environment sensor test done")
 	}
 }
