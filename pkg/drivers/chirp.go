@@ -30,13 +30,11 @@ func (c *Chirp) ReadCapacitance() (uint16, error) {
 	return c.read(getCapacitanceCommand)
 }
 
+func (c *Chirp) RequestLightMeasurement() error {
+	return c.write(requestLightCommand)
+}
+
 func (c *Chirp) ReadLight() (uint16, error) {
-	if err := c.write(requestLightCommand); err != nil {
-		return 0, err
-	}
-
-	time.Sleep(time.Second * 9) // As per the official example; this will take a while
-
 	return c.read(getLightCommand)
 }
 
@@ -44,8 +42,6 @@ func (c *Chirp) Reset() error {
 	if err := c.write(resetCommand); err != nil {
 		return err
 	}
-
-	time.Sleep(time.Second) // As per the official example; will take a bit of time
 
 	return nil
 }
@@ -73,7 +69,7 @@ func (c *Chirp) read(register byte) (uint16, error) {
 		return 0, err
 	}
 
-	time.Sleep(time.Millisecond * 20) // Wait for the microcontroller
+	time.Sleep(time.Millisecond * 20) // Wait for the microcontroller, as per to official example
 
 	return c.i2c.ReadRegU16BE(outRegister)
 }
