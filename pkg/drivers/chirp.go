@@ -12,6 +12,8 @@ const (
 	getCapacitanceCommand = 0x0
 	requestLightCommand   = 0x3
 	getLightCommand       = 0x4
+	resetCommand          = 0x6
+	setAddressCommand     = 0x1
 )
 
 type Chirp struct {
@@ -36,6 +38,28 @@ func (c *Chirp) ReadLight() (uint16, error) {
 	time.Sleep(time.Second * 9) // As per the official example; this will take a while
 
 	return c.read(getLightCommand)
+}
+
+func (c *Chirp) Reset() error {
+	if err := c.write(resetCommand); err != nil {
+		return err
+	}
+
+	time.Sleep(time.Second) // As per the official example; will take a bit of time
+
+	return nil
+}
+
+func (c *Chirp) SetAddress(newAddress byte) error {
+	if err := c.write(setAddressCommand); err != nil {
+		return err
+	}
+
+	if err := c.write(newAddress); err != nil {
+		return err
+	}
+
+	return c.Reset()
 }
 
 func (c *Chirp) write(value byte) error {
