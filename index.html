@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta httpequiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="Felicitas Pojtinger">
-<meta name="description" content="Visualize plant growth over time.">
+<meta content="Visualize plant growth over time." name="description">
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
 <meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:44895/">
+<meta property="og:url" content="http://127.0.0.1:33231/">
 <meta property="og:title" content="Growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
 <meta property="og:type" content="website">
@@ -16,15 +16,15 @@
 <title>
 Growlapse
 </title>
-<link rel="icon" type="image/png" href="/growlapse/web/icon.png">
+<link href="/growlapse/web/icon.png" rel="icon" type="image/png">
 <link rel="apple-touch-icon" href="/growlapse/web/icon.png">
 <link rel="manifest" href="/growlapse/manifest.webmanifest">
-<link type="text/css" rel="stylesheet" href="/growlapse/app.css">
+<link rel="stylesheet" href="/growlapse/app.css" type="text/css">
 <script defer src="/growlapse/wasm_exec.js"></script>
 <script defer src="/growlapse/app.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css" type="text/css">
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly-addons.css">
-<link type="text/css" rel="stylesheet" href="/growlapse/web/index.css">
+<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css">
+<link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly-addons.css" type="text/css">
+<link rel="stylesheet" href="/growlapse/web/index.css" type="text/css">
 <meta property="og:url" content="https://pojntfx.github.io/growlapse/">
 <meta property="og:title" content="growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
@@ -37,7 +37,7 @@ Growlapse
 <label for="webDAVURL">
 webDAV URL: 
 </label>
-<input required value type="url" id="webDAVURL" name="webDAVURL">
+<input value type="url" id="webDAVURL" name="webDAVURL" required>
 <br>
 <label for="webDAVUsername">
 webDAV Username: 
@@ -47,7 +47,7 @@ webDAV Username:
 <label for="webDAVPassword">
 webDAV Password: 
 </label>
-<input id="webDAVPassword" name="webDAVPassword" value type="password">
+<input type="password" id="webDAVPassword" name="webDAVPassword" value>
 <br>
 <button type="submit">
 Login
@@ -55,7 +55,7 @@ Login
 </form>
 </div>
 <div id="app-wasm-loader" class="goapp-app-info">
-<img id="app-wasm-loader-icon" class="goapp-logo goapp-spin" src="/growlapse/web/icon.png">
+<img src="/growlapse/web/icon.png" id="app-wasm-loader-icon" class="goapp-logo goapp-spin">
 <p id="app-wasm-loader-label" class="goapp-label">
 Visualize plant growth over time.
 </p>
