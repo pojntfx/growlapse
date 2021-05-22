@@ -1,11 +1,24 @@
 package main
 
-import "time"
+import (
+	"machine"
+	"time"
+)
 
 func main() {
-	for {
-		println("Hello, world!")
+	machine.InitADC()
 
-		time.Sleep(time.Second)
+	adc := machine.ADC{
+		Pin: machine.ADC0,
+	}
+
+	adc.Configure()
+
+	for {
+		v := adc.Get()
+
+		println("Moisture level: ", v)
+
+		time.Sleep(time.Millisecond * 500)
 	}
 }
