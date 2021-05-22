@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta httpequiv="Content-Type" content="text/html; charset=utf-8">
-<meta content="Felicitas Pojtinger" name="author">
+<meta name="author" content="Felicitas Pojtinger">
 <meta name="description" content="Visualize plant growth over time.">
 <meta name="keywords" content="growlab, growlapse, plants, growth-visualization">
 <meta name="theme-color" content="#151515">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<meta property="og:url" content="http://127.0.0.1:37635/">
-<meta content="Growlapse" property="og:title">
+<meta property="og:url" content="http://127.0.0.1:44895/">
+<meta property="og:title" content="Growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
 <meta property="og:type" content="website">
 <meta property="og:image" content>
@@ -18,13 +18,13 @@ Growlapse
 </title>
 <link rel="icon" type="image/png" href="/growlapse/web/icon.png">
 <link rel="apple-touch-icon" href="/growlapse/web/icon.png">
-<link href="/growlapse/manifest.webmanifest" rel="manifest">
+<link rel="manifest" href="/growlapse/manifest.webmanifest">
 <link type="text/css" rel="stylesheet" href="/growlapse/app.css">
 <script defer src="/growlapse/wasm_exec.js"></script>
 <script defer src="/growlapse/app.js"></script>
-<link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css">
+<link rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly.css" type="text/css">
 <link type="text/css" rel="stylesheet" href="https://unpkg.com/@patternfly/patternfly@4.96.2/patternfly-addons.css">
-<link href="/growlapse/web/index.css" type="text/css" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="/growlapse/web/index.css">
 <meta property="og:url" content="https://pojntfx.github.io/growlapse/">
 <meta property="og:title" content="growlapse">
 <meta property="og:description" content="Visualize plant growth over time.">
@@ -37,17 +37,17 @@ Growlapse
 <label for="webDAVURL">
 webDAV URL: 
 </label>
-<input type="url" id="webDAVURL" name="webDAVURL" required value>
+<input required value type="url" id="webDAVURL" name="webDAVURL">
 <br>
 <label for="webDAVUsername">
 webDAV Username: 
 </label>
-<input id="webDAVUsername" name="webDAVUsername" value required type="text">
+<input type="text" id="webDAVUsername" name="webDAVUsername" value required>
 <br>
 <label for="webDAVPassword">
 webDAV Password: 
 </label>
-<input type="password" id="webDAVPassword" name="webDAVPassword" value>
+<input id="webDAVPassword" name="webDAVPassword" value type="password">
 <br>
 <button type="submit">
 Login
